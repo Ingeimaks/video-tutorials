@@ -1,62 +1,62 @@
-# 🧠 ESP32 + Gemini AI - Guida Completa ai Progetti
+# 🧠 ESP32 + Gemini AI - Complete Project Guide
 
-Questa guida spiega in dettaglio come funzionano i due progetti ESP32 + Gemini AI presenti in questo repository, le loro differenze e come utilizzarli.
-
----
-
-## 📋 Panoramica dei Progetti
-
-### 🔹 ESP32 Gemini 1.0 (Versione Base)
-**Cartella:** `Esp32_Gemini_1_0/`  
-**File principale:** `Esp32_Gemini_1_0.ino`
-
-### 🔹 ESP32 Gemini 2.0 (Versione Avanzata)
-**Cartella:** `Esp32 Gemini 2.0/GeminiAi2.0/`  
-**File principale:** `GeminiAi2.0.ino`
+This guide explains in detail how the two ESP32 + Gemini AI projects in this repository work, their differences, and how to use them.
 
 ---
 
-## 🚀 ESP32 Gemini 1.0 - Versione Base
+## 📋 Project Overview
 
-### 📌 Caratteristiche Principali
-- **Semplicità**: Implementazione base per iniziare con Gemini AI
-- **Funzionalità**: Invio di domande tramite Serial Monitor e ricezione risposte
-- **Modello**: Utilizza `gemini-2.0-flash`
-- **Configurazione**: Parametri fissi nel codice
+### 🔹 ESP32 Gemini 1.0 (Basic Version)
+**Folder:** `Esp32_Gemini_1_0/`  
+**Main file:** `Esp32_Gemini_1_0.ino`
 
-### 🔧 Come Funziona
+### 🔹 ESP32 Gemini 2.0 (Advanced Version)
+**Folder:** `Esp32 Gemini 2.0/GeminiAi2.0/`  
+**Main file:** `GeminiAi2.0.ino`
 
-#### 1. **Connessione Wi-Fi**
+---
+
+## 🚀 ESP32 Gemini 1.0 - Basic Version
+
+### 📌 Main Features
+- **Simplicity**: Basic implementation to get started with Gemini AI
+- **Functionality**: Send questions via Serial Monitor and receive responses
+- **Model**: Uses `gemini-2.0-flash`
+- **Configuration**: Fixed parameters in code
+
+### 🔧 How It Works
+
+#### 1. **Wi-Fi Connection**
 ```cpp
-const char* ssid = "";        // Inserire il nome della rete Wi-Fi
-const char* password = "";    // Inserire la password Wi-Fi
+const char* ssid = "";        // Insert Wi-Fi network name
+const char* password = "";    // Insert Wi-Fi password
 ```
 
-#### 2. **Configurazione API Gemini**
+#### 2. **Gemini API Configuration**
 ```cpp
-const char* apiKey = "";      // Inserire la chiave API di Google Gemini
+const char* apiKey = "";      // Insert Google Gemini API key
 ```
 
-#### 3. **Endpoint API**
+#### 3. **API Endpoint**
 ```cpp
 const String endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + String(apiKey);
 ```
 
-#### 4. **Flusso di Funzionamento**
-1. **Setup**: Connessione Wi-Fi e inizializzazione SSL
-2. **Loop**: Lettura input dal Serial Monitor
-3. **Invio**: POST request all'API Gemini con la domanda
-4. **Parsing**: Estrazione della risposta dal JSON
-5. **Output**: Visualizzazione della risposta sul Serial Monitor
+#### 4. **Operation Flow**
+1. **Setup**: Wi-Fi connection and SSL initialization
+2. **Loop**: Read input from Serial Monitor
+3. **Send**: POST request to Gemini API with question
+4. **Parsing**: Extract response from JSON
+5. **Output**: Display response on Serial Monitor
 
-#### 5. **Struttura JSON della Richiesta**
+#### 5. **Request JSON Structure**
 ```json
 {
   "contents": [
     {
       "parts": [
         {
-          "text": "La tua domanda qui"
+          "text": "Your question here"
         }
       ]
     }
@@ -64,66 +64,66 @@ const String endpoint = "https://generativelanguage.googleapis.com/v1beta/models
 }
 ```
 
-### ⚙️ Configurazione e Utilizzo
+### ⚙️ Configuration and Usage
 
-1. **Prerequisiti**:
-   - Scheda ESP32
-   - Arduino IDE con librerie: `WiFi`, `WiFiClientSecure`, `HTTPClient`, `ArduinoJson`
-   - Chiave API Google Gemini
+1. **Prerequisites**:
+   - ESP32 board
+   - Arduino IDE with libraries: `WiFi`, `WiFiClientSecure`, `HTTPClient`, `ArduinoJson`
+   - Google Gemini API key
 
 2. **Setup**:
-   - Inserire credenziali Wi-Fi nelle variabili `ssid` e `password`
-   - Inserire la chiave API Gemini nella variabile `apiKey`
-   - Caricare il codice sull'ESP32
+   - Insert Wi-Fi credentials in `ssid` and `password` variables
+   - Insert Gemini API key in `apiKey` variable
+   - Upload code to ESP32
 
-3. **Utilizzo**:
-   - Aprire il Serial Monitor (115200 baud)
-   - Scrivere una domanda e premere INVIO
-   - Attendere la risposta di Gemini
+3. **Usage**:
+   - Open Serial Monitor (115200 baud)
+   - Write a question and press ENTER
+   - Wait for Gemini's response
 
 ---
 
-## 🚀 ESP32 Gemini 2.0 - Versione Avanzata
+## 🚀 ESP32 Gemini 2.0 - Advanced Version
 
-### 📌 Caratteristiche Principali
-- **Parametri Dinamici**: Modifica dei parametri senza ricompilare
-- **Comandi Speciali**: Sistema di comandi per configurazione runtime
-- **Gestione Errori**: Retry automatico e gestione errori migliorata
-- **Pulizia Testo**: Rimozione automatica di formattazione Markdown
-- **Monitoraggio**: Controllo memoria e diagnostica
+### 📌 Main Features
+- **Dynamic Parameters**: Modify parameters without recompiling
+- **Special Commands**: Command system for runtime configuration
+- **Error Handling**: Automatic retry and improved error management
+- **Text Cleaning**: Automatic removal of Markdown formatting
+- **Monitoring**: Memory control and diagnostics
 
-### 🔧 Come Funziona
+### 🔧 How It Works
 
-#### 1. **Parametri Configurabili**
+#### 1. **Configurable Parameters**
 ```cpp
-uint32_t maxOutputTokens = 2048;    // Lunghezza massima risposta
-float    temperature     = 0.7;     // Creatività (0.0-2.0)
-float    topP            = 0.9;     // Probabilità cumulativa
-String   modelRuntime    = "gemini-2.5-flash";  // Modello AI
+uint32_t maxOutputTokens = 2048;    // Maximum response length
+float    temperature     = 0.7;     // Creativity (0.0-2.0)
+float    topP            = 0.9;     // Cumulative probability
+String   modelRuntime    = "gemini-2.5-flash";  // AI Model
 ```
 
-#### 2. **Sistema di Comandi Speciali**
-- `/tokens N` - Imposta numero massimo di token (es. `/tokens 4096`)
-- `/temp X.Y` - Imposta creatività (es. `/temp 0.3`)
-- `/topP X.Y` - Imposta probabilità (es. `/topP 0.95`)
-- `/model nome` - Cambia modello (es. `/model gemini-1.5-flash`)
-- `/heap` - Mostra memoria libera
-- `/help` - Mostra lista comandi
+#### 2. **Special Commands System**
+- `/tokens N` - Set maximum number of tokens (e.g., `/tokens 4096`)
+- `/temp X.Y` - Set creativity (e.g., `/temp 0.3`)
+- `/topP X.Y` - Set probability (e.g., `/topP 0.95`)
+- `/model name` - Change model (e.g., `/model gemini-1.5-flash`)
+- `/heap` - Show free memory
+- `/help` - Show command list
 
-#### 3. **Gestione Avanzata degli Errori**
+#### 3. **Advanced Error Handling**
 ```cpp
-const uint8_t MAX_RETRIES = 2;        // Numero tentativi
-const uint32_t HTTP_TIMEOUT_MS = 25000;  // Timeout esteso
+const uint8_t MAX_RETRIES = 2;        // Number of attempts
+const uint32_t HTTP_TIMEOUT_MS = 25000;  // Extended timeout
 ```
 
-#### 4. **Pulizia Automatica del Testo**
-La funzione `cleanText()` rimuove:
-- Blocchi di codice ```...```
-- Backtick singoli `
-- Asterischi decorativi * e **
-- Spazi e newline eccessive
+#### 4. **Automatic Text Cleaning**
+The `cleanText()` function removes:
+- Code blocks ```...```
+- Single backticks `
+- Decorative asterisks * and **
+- Excessive spaces and newlines
 
-#### 5. **Struttura JSON Avanzata**
+#### 5. **Advanced JSON Structure**
 ```json
 {
   "generationConfig": {
@@ -135,7 +135,7 @@ La funzione `cleanText()` rimuove:
     {
       "parts": [
         {
-          "text": "La tua domanda qui"
+          "text": "Your question here"
         }
       ]
     }
@@ -143,89 +143,89 @@ La funzione `cleanText()` rimuove:
 }
 ```
 
-### ⚙️ Configurazione e Utilizzo
+### ⚙️ Configuration and Usage
 
-1. **Setup Iniziale**:
-   - Stesse librerie della versione 1.0
-   - Configurare `SSID`, `PASSWORD`, `API_KEY`
+1. **Initial Setup**:
+   - Same libraries as version 1.0
+   - Configure `SSID`, `PASSWORD`, `API_KEY`
 
-2. **Utilizzo Base**:
-   - Scrivere domande normalmente nel Serial Monitor
-   - Le risposte sono automaticamente pulite dalla formattazione
+2. **Basic Usage**:
+   - Write questions normally in Serial Monitor
+   - Responses are automatically cleaned from formatting
 
-3. **Utilizzo Avanzato**:
+3. **Advanced Usage**:
    ```
-   /tokens 4096          # Aumenta lunghezza risposta
-   /temp 0.3             # Riduce creatività per risposte più precise
-   /model gemini-1.5-pro # Cambia a modello più potente
-   Spiegami la fisica quantistica
+   /tokens 4096          # Increase response length
+   /temp 0.3             # Reduce creativity for more precise responses
+   /model gemini-1.5-pro # Switch to more powerful model
+   Explain quantum physics
    ```
 
 ---
 
-## 🔄 Confronto tra le Versioni
+## 🔄 Version Comparison
 
-| Caratteristica | Gemini 1.0 | Gemini 2.0 |
-|----------------|------------|------------|
-| **Complessità** | Base | Avanzata |
-| **Parametri** | Fissi | Dinamici |
-| **Comandi** | Solo domande | Comandi speciali |
-| **Gestione Errori** | Base | Avanzata con retry |
-| **Pulizia Testo** | No | Sì |
-| **Monitoraggio** | No | Memoria e diagnostica |
-| **Timeout** | 10 secondi | 25 secondi |
-| **Modelli** | Solo gemini-2.0-flash | Cambiabili runtime |
-
----
-
-## 🛠️ Risoluzione Problemi Comuni
-
-### ❌ Errori di Connessione
-- Verificare credenziali Wi-Fi
-- Controllare la connessione internet
-- Verificare che l'API key sia valida
-
-### ❌ Errori HTTP
-- **HTTP 400**: Richiesta malformata, controllare il JSON
-- **HTTP 401**: API key non valida o scaduta
-- **HTTP 429**: Troppi request, attendere
-- **HTTP 500**: Errore server Google, riprovare
-
-### ❌ Errori di Parsing JSON
-- Aumentare la dimensione del buffer `DynamicJsonDocument`
-- Verificare che la risposta sia JSON valido
-
-### ❌ Memoria Insufficiente
-- Usare `/heap` per monitorare la memoria
-- Ridurre `maxOutputTokens`
-- Riavviare l'ESP32 se necessario
+| Feature | Gemini 1.0 | Gemini 2.0 |
+|---------|------------|------------|
+| **Complexity** | Basic | Advanced |
+| **Parameters** | Fixed | Dynamic |
+| **Commands** | Questions only | Special commands |
+| **Error Handling** | Basic | Advanced with retry |
+| **Text Cleaning** | No | Yes |
+| **Monitoring** | No | Memory and diagnostics |
+| **Timeout** | 10 seconds | 25 seconds |
+| **Models** | Only gemini-2.0-flash | Runtime changeable |
 
 ---
 
-## 🔐 Note di Sicurezza
+## 🛠️ Common Troubleshooting
 
-⚠️ **IMPORTANTE**: 
-- **MAI** pubblicare le credenziali Wi-Fi o l'API key su GitHub
-- Il codice usa `setInsecure()` per i certificati SSL - **NON** usare in produzione
-- Per uso produttivo, implementare validazione certificati SSL appropriata
+### ❌ Connection Errors
+- Verify Wi-Fi credentials
+- Check internet connection
+- Verify API key is valid
+
+### ❌ HTTP Errors
+- **HTTP 400**: Malformed request, check JSON
+- **HTTP 401**: Invalid or expired API key
+- **HTTP 429**: Too many requests, wait
+- **HTTP 500**: Google server error, retry
+
+### ❌ JSON Parsing Errors
+- Increase `DynamicJsonDocument` buffer size
+- Verify response is valid JSON
+
+### ❌ Insufficient Memory
+- Use `/heap` to monitor memory
+- Reduce `maxOutputTokens`
+- Restart ESP32 if necessary
 
 ---
 
-## 📚 Risorse Utili
+## 🔐 Security Notes
 
-- [Documentazione Google Gemini API](https://ai.google.dev/docs)
+⚠️ **IMPORTANT**: 
+- **NEVER** publish Wi-Fi credentials or API key on GitHub
+- Code uses `setInsecure()` for SSL certificates - **DO NOT** use in production
+- For production use, implement proper SSL certificate validation
+
+---
+
+## 📚 Useful Resources
+
+- [Google Gemini API Documentation](https://ai.google.dev/docs)
 - [Arduino ESP32 Core](https://github.com/espressif/arduino-esp32)
-- [Libreria ArduinoJson](https://arduinojson.org/)
-- [Canale YouTube Ingeimaks](https://www.youtube.com/@Ingeimaks)
+- [ArduinoJson Library](https://arduinojson.org/)
+- [Ingeimaks YouTube Channel](https://www.youtube.com/@Ingeimaks)
 
 ---
 
-## 📄 Licenza
+## 📄 License
 
-Entrambi i progetti sono rilasciati sotto licenza MIT. Puoi liberamente modificare, distribuire e utilizzare il codice per i tuoi progetti.
+Both projects are released under MIT license. You can freely modify, distribute and use the code for your projects.
 
 ---
 
-*Creato da Ingeimaks - Agosto 2025*
+*Created by Ingeimaks - August 2025*
 
-✍️ Segui il canale [Ingeimaks](https://www.youtube.com/@Ingeimaks) per nuovi progetti ESP32 e altri contenuti di elettronica, Arduino e stampa 3D!
+✍️ Follow the [Ingeimaks](https://www.youtube.com/@Ingeimaks) channel for new ESP32 projects and other electronics, Arduino and 3D printing content!
